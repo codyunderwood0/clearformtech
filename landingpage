@@ -1,0 +1,638 @@
+import React, { useMemo, useState } from "react";
+import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  Bot,
+  Shield,
+  Workflow,
+  Database,
+  Smartphone,
+  Lock,
+  CheckCircle2,
+  Sparkles,
+  Mail,
+  Phone,
+  Building2,
+  FileSearch,
+  Gauge,
+  Wand2,
+} from "lucide-react";
+
+const cn = (...c) => c.filter(Boolean).join(" ");
+
+const Container = ({ children, className = "" }) => (
+  <div className={cn("mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8", className)}>
+    {children}
+  </div>
+);
+
+const Card = ({ children, className = "" }) => (
+  <div
+    className={cn(
+      "rounded-3xl border border-slate-200 bg-white/70 p-6 shadow-sm backdrop-blur",
+      className
+    )}
+  >
+    {children}
+  </div>
+);
+
+const Button = ({
+  href,
+  onClick,
+  variant = "primary",
+  className = "",
+  children,
+}) => {
+  const base =
+    "inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-slate-400/60";
+  const styles =
+    variant === "primary"
+      ? "bg-slate-900 text-white hover:opacity-90 shadow-sm"
+      : "bg-white text-slate-900 border border-slate-200 hover:bg-slate-50";
+  const Comp = href ? "a" : "button";
+  return (
+    <Comp href={href} onClick={onClick} className={cn(base, styles, className)}>
+      {children}
+    </Comp>
+  );
+};
+
+const Pill = ({ children }) => (
+  <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs font-medium text-slate-700 shadow-sm backdrop-blur">
+    <Sparkles className="h-3.5 w-3.5" />
+    {children}
+  </span>
+);
+
+const Logo = () => (
+  <div className="flex items-center gap-2">
+    <div className="grid h-10 w-10 place-items-center rounded-2xl bg-slate-900 text-white shadow-sm">
+      <span className="text-sm font-black tracking-tight">CF</span>
+    </div>
+    <div className="leading-tight">
+      <div className="text-sm font-extrabold tracking-tight text-slate-900">
+        ClearForm Tech
+      </div>
+      <div className="text-[11px] text-slate-500">AI-first product engineering</div>
+    </div>
+  </div>
+);
+
+const NavLink = ({ href, children }) => (
+  <a href={href} className="text-sm font-medium text-slate-700 hover:text-slate-900">
+    {children}
+  </a>
+);
+
+const SectionTitle = ({ eyebrow, title, subtitle }) => (
+  <div className="mx-auto max-w-2xl text-center">
+    {eyebrow ? (
+      <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
+        {eyebrow}
+      </div>
+    ) : null}
+    <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+      {title}
+    </h2>
+    {subtitle ? <p className="mt-3 text-base text-slate-600">{subtitle}</p> : null}
+  </div>
+);
+
+const IconFeature = ({ icon: Icon, title, desc }) => (
+  <Card className="h-full">
+    <div className="flex items-start gap-4">
+      <div className="grid h-10 w-10 place-items-center rounded-2xl bg-slate-900 text-white shadow-sm">
+        <Icon className="h-5 w-5" />
+      </div>
+      <div>
+        <div className="text-base font-bold text-slate-900">{title}</div>
+        <p className="mt-1 text-sm text-slate-600">{desc}</p>
+      </div>
+    </div>
+  </Card>
+);
+
+const CheckItem = ({ children }) => (
+  <li className="flex gap-2 text-sm text-slate-700">
+    <CheckCircle2 className="mt-0.5 h-4 w-4 flex-none" />
+    <span>{children}</span>
+  </li>
+);
+
+export default function ClearFormTechLanding() {
+  const [navOpen, setNavOpen] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState({ name: "", company: "", email: "", phone: "", message: "" });
+
+  const services = useMemo(
+    () => [
+      {
+        icon: Workflow,
+        title: "Platforms & workflow automation",
+        desc: "Configurable claim intake, triage, assignment routing, QA gates, invoicing, and portals—built around your SOPs.",
+      },
+      {
+        icon: Bot,
+        title: "AI copilots for claims",
+        desc: "Policy/document Q&A, voice-to-text scoping, damage tagging, estimate assist, and next-best-action prompts—with human-in-the-loop.",
+      },
+      {
+        icon: Smartphone,
+        title: "Field + desk mobile apps",
+        desc: "Offline-first inspections, dynamic forms, secure media capture, and sync pipelines for high-volume teams.",
+      },
+      {
+        icon: Database,
+        title: "Integrations & data products",
+        desc: "APIs, ETL, warehouses, and connectors to core systems (FNOL, CMS, estimating, payments, CRM).",
+      },
+      {
+        icon: Lock,
+        title: "Security-minded engineering",
+        desc: "RBAC, least privilege, encryption, logging, and architecture aligned to enterprise controls.",
+      },
+      {
+        icon: Gauge,
+        title: "Performance at scale",
+        desc: "Systems designed for peak events: queueing, caching, observability, and cost-aware infrastructure.",
+      },
+    ],
+    []
+  );
+
+  const audiences = useMemo(
+    () => [
+      { icon: Building2, title: "Insurance carriers", note: "Modernize claims operations and reduce cycle time." },
+      { icon: Shield, title: "Independent adjusting firms", note: "Scale consistent quality across field + desk." },
+      { icon: FileSearch, title: "Public adjusting firms", note: "Streamline intake, documentation, and communication." },
+      { icon: Wand2, title: "TPAs / MPAs", note: "High-volume routing, SLAs, and reporting." },
+    ],
+    []
+  );
+
+  const process = useMemo(
+    () => [
+      {
+        title: "Discovery → architecture",
+        desc: "We map your workflows, data, and constraints—then design a clean, modular system that can grow.",
+      },
+      {
+        title: "Build → iterate",
+        desc: "Ship weekly, measure, and refine. We prioritize reliability, speed, and excellent UX for busy claims teams.",
+      },
+      {
+        title: "Harden → scale",
+        desc: "Security controls, audit logs, observability, and performance testing—so the platform holds up under pressure.",
+      },
+    ],
+    []
+  );
+
+  const faqs = useMemo(
+    () => [
+      {
+        q: "Do you build web + mobile together?",
+        a: "Yes. We design shared data models and APIs so your web portal and mobile app stay aligned while evolving quickly.",
+      },
+      {
+        q: "Can you work with existing claim systems?",
+        a: "Absolutely. We integrate with existing CMS/FNOL/estimating/payment tools where possible, and can modernize in phases.",
+      },
+      {
+        q: "How do you approach AI safely?",
+        a: "We use human-in-the-loop review, confidence thresholds, and auditability—so AI boosts throughput without creating hidden risk.",
+      },
+    ],
+    []
+  );
+
+  function scrollTo(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function onSubmit(e) {
+    e.preventDefault();
+    setSubmitted(true);
+    // Hook this up to your backend or form provider.
+    // Example: POST /api/contact with `form`
+  }
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      {/* Background */}
+      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div className="absolute -left-40 top-[-220px] h-[520px] w-[520px] rounded-full bg-slate-200/50 blur-3xl" />
+        <div className="absolute -right-44 top-[-180px] h-[520px] w-[520px] rounded-full bg-slate-200/50 blur-3xl" />
+        <div className="absolute left-1/2 top-[360px] h-[520px] w-[720px] -translate-x-1/2 rounded-full bg-slate-200/40 blur-3xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(15,23,42,0.07)_1px,transparent_0)] [background-size:28px_28px]" />
+      </div>
+
+      {/* Nav */}
+      <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/70 backdrop-blur">
+        <Container className="flex items-center justify-between py-4">
+          <a href="#top" className="flex items-center" onClick={(e) => (e.preventDefault(), scrollTo("top"))}>
+            <Logo />
+          </a>
+          <nav className="hidden items-center gap-6 md:flex">
+            <NavLink href="#services">Services</NavLink>
+            <NavLink href="#who">Who we serve</NavLink>
+            <NavLink href="#process">Process</NavLink>
+            <NavLink href="#faq">FAQ</NavLink>
+            <Button variant="secondary" onClick={() => scrollTo("contact")}>Contact</Button>
+          </nav>
+          <div className="md:hidden">
+            <Button
+              variant="secondary"
+              onClick={() => setNavOpen((v) => !v)}
+              className="px-3"
+            >
+              Menu
+            </Button>
+          </div>
+        </Container>
+        {navOpen ? (
+          <div className="border-t border-slate-200 bg-white/80 backdrop-blur md:hidden">
+            <Container className="flex flex-col gap-3 py-4">
+              <NavLink href="#services">Services</NavLink>
+              <NavLink href="#who">Who we serve</NavLink>
+              <NavLink href="#process">Process</NavLink>
+              <NavLink href="#faq">FAQ</NavLink>
+              <Button variant="secondary" onClick={() => (setNavOpen(false), scrollTo("contact"))}>
+                Contact
+              </Button>
+            </Container>
+          </div>
+        ) : null}
+      </header>
+
+      {/* Hero */}
+      <main id="top">
+        <section className="pt-14 sm:pt-20">
+          <Container>
+            <div className="grid items-center gap-10 lg:grid-cols-2">
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <Pill>Modern platforms for claims teams</Pill>
+                <h1 className="mt-5 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
+                  Build web & mobile products that make claims faster—with AI that’s
+                  safe, auditable, and useful.
+                </h1>
+                <p className="mt-4 text-lg leading-relaxed text-slate-600">
+                  ClearForm Tech is a full-stack development firm specializing in AI-first
+                  platforms for insurance carriers, IAs, PAs, TPAs/MPAs, and claims vendors.
+                  We ship clean UX, solid architecture, and integrations that actually work.
+                </p>
+
+                <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <Button onClick={() => scrollTo("contact")}>
+                    Book a discovery call <ArrowRight className="h-4 w-4" />
+                  </Button>
+                  <Button variant="secondary" onClick={() => scrollTo("services")}>
+                    See services
+                  </Button>
+                </div>
+
+                <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                  {[
+                    { v: "AI + workflow", l: "Designed for claims" },
+                    { v: "Web + mobile", l: "One cohesive system" },
+                    { v: "Security", l: "RBAC + audit logs" },
+                    { v: "Integrations", l: "APIs & data" },
+                  ].map((s) => (
+                    <div key={s.v} className="rounded-3xl border border-slate-200 bg-white/70 p-4 text-center shadow-sm backdrop-blur">
+                      <div className="text-base font-extrabold tracking-tight">{s.v}</div>
+                      <div className="mt-1 text-xs font-medium text-slate-600">{s.l}</div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.08 }}
+              >
+                <Card className="p-0 overflow-hidden">
+                  <div className="border-b border-slate-200 bg-white/60 px-6 py-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-sm font-bold">Example: Claims AI Copilot</div>
+                        <div className="text-xs text-slate-600">Policy Q&A • Triage • Inspection notes</div>
+                      </div>
+                      <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700">
+                        <Bot className="h-3.5 w-3.5" /> AI
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="grid gap-0 md:grid-cols-2">
+                    <div className="p-6">
+                      <div className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        What it does
+                      </div>
+                      <ul className="mt-3 space-y-2">
+                        <CheckItem>Extracts key facts from PDFs, photos, emails</CheckItem>
+                        <CheckItem>Suggests next steps by claim type & SOP</CheckItem>
+                        <CheckItem>Generates inspection notes and summaries</CheckItem>
+                        <CheckItem>Routes files with confidence thresholds</CheckItem>
+                      </ul>
+                    </div>
+                    <div className="border-t border-slate-200 bg-slate-900 p-6 text-slate-50 md:border-l md:border-t-0">
+                      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-300">
+                        <Shield className="h-4 w-4" /> Controls
+                      </div>
+                      <ul className="mt-3 space-y-2 text-sm text-slate-100">
+                        <li className="flex gap-2">
+                          <CheckCircle2 className="mt-0.5 h-4 w-4" /> Human-in-the-loop review
+                        </li>
+                        <li className="flex gap-2">
+                          <CheckCircle2 className="mt-0.5 h-4 w-4" /> Audit logs for AI outputs
+                        </li>
+                        <li className="flex gap-2">
+                          <CheckCircle2 className="mt-0.5 h-4 w-4" /> RBAC + least privilege
+                        </li>
+                        <li className="flex gap-2">
+                          <CheckCircle2 className="mt-0.5 h-4 w-4" /> Data boundaries by tenant
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </Card>
+
+                <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                  <Card>
+                    <div className="text-xs font-semibold uppercase tracking-wider text-slate-500">Common deliverables</div>
+                    <div className="mt-2 text-sm text-slate-700">
+                      Portals, mobile inspection apps, CMS modules, QA workflows, reporting, and secure integrations.
+                    </div>
+                  </Card>
+                  <Card>
+                    <div className="text-xs font-semibold uppercase tracking-wider text-slate-500">Typical timeline</div>
+                    <div className="mt-2 text-sm text-slate-700">
+                      MVP in 6–10 weeks, then iterate to enterprise hardening and scale.
+                    </div>
+                  </Card>
+                </div>
+              </motion.div>
+            </div>
+          </Container>
+        </section>
+
+        {/* Services */}
+        <section id="services" className="pt-16 sm:pt-24">
+          <Container>
+            <SectionTitle
+              eyebrow="What we build"
+              title="Modern claims software—end to end"
+              subtitle="Full-stack web + mobile development with AI, integrations, and security built in from day one."
+            />
+            <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {services.map((s) => (
+                <IconFeature key={s.title} icon={s.icon} title={s.title} desc={s.desc} />
+              ))}
+            </div>
+          </Container>
+        </section>
+
+        {/* Who we serve */}
+        <section id="who" className="pt-16 sm:pt-24">
+          <Container>
+            <SectionTitle
+              eyebrow="Built for the claims ecosystem"
+              title="Who we serve"
+              subtitle="We specialize in claims workflows, high-volume operations, and the realities of field and desk teams."
+            />
+            <div className="mt-10 grid gap-4 md:grid-cols-2">
+              {audiences.map((a) => (
+                <Card key={a.title} className="h-full">
+                  <div className="flex items-start gap-4">
+                    <div className="grid h-10 w-10 place-items-center rounded-2xl bg-slate-900 text-white shadow-sm">
+                      <a.icon className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <div className="text-base font-bold text-slate-900">{a.title}</div>
+                      <div className="mt-1 text-sm text-slate-600">{a.note}</div>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </Container>
+        </section>
+
+        {/* Process */}
+        <section id="process" className="pt-16 sm:pt-24">
+          <Container>
+            <SectionTitle
+              eyebrow="How we work"
+              title="Fast shipping. Clean architecture. Real controls."
+              subtitle="A simple process that keeps momentum while protecting quality and security."
+            />
+            <div className="mt-10 grid gap-4 lg:grid-cols-3">
+              {process.map((p) => (
+                <Card key={p.title} className="h-full">
+                  <div className="text-base font-extrabold tracking-tight text-slate-900">{p.title}</div>
+                  <p className="mt-2 text-sm text-slate-600">{p.desc}</p>
+                </Card>
+              ))}
+            </div>
+
+            <div className="mt-8 grid gap-4 lg:grid-cols-2">
+              <Card>
+                <div className="text-sm font-bold text-slate-900">Where AI fits</div>
+                <p className="mt-2 text-sm text-slate-600">
+                  We don’t bolt on AI. We place it where it creates leverage—then wrap it with review, auditability, and
+                  measurable outcomes.
+                </p>
+                <ul className="mt-4 space-y-2">
+                  <CheckItem>Document & photo classification</CheckItem>
+                  <CheckItem>Summaries and inspection notes</CheckItem>
+                  <CheckItem>Policy guidance and workflow prompts</CheckItem>
+                  <CheckItem>Quality checks and exception detection</CheckItem>
+                </ul>
+              </Card>
+              <Card>
+                <div className="text-sm font-bold text-slate-900">Engineering principles</div>
+                <p className="mt-2 text-sm text-slate-600">
+                  Claims software must be dependable under pressure—and flexible enough for changing programs.
+                </p>
+                <ul className="mt-4 space-y-2">
+                  <CheckItem>Configurable workflows, not hard-coded</CheckItem>
+                  <CheckItem>RBAC, audit logs, and tenant boundaries</CheckItem>
+                  <CheckItem>Observability: logs, traces, alerts</CheckItem>
+                  <CheckItem>API-first design for integrations</CheckItem>
+                </ul>
+              </Card>
+            </div>
+          </Container>
+        </section>
+
+        {/* FAQ */}
+        <section id="faq" className="pt-16 sm:pt-24">
+          <Container>
+            <SectionTitle
+              eyebrow="FAQ"
+              title="A few common questions"
+              subtitle="If you have specifics (stack, integrations, claim types), we’ll get concrete quickly."
+            />
+            <div className="mt-10 grid gap-4 lg:grid-cols-3">
+              {faqs.map((f) => (
+                <Card key={f.q} className="h-full">
+                  <div className="text-sm font-bold text-slate-900">{f.q}</div>
+                  <div className="mt-2 text-sm text-slate-600">{f.a}</div>
+                </Card>
+              ))}
+            </div>
+          </Container>
+        </section>
+
+        {/* CTA + Contact */}
+        <section id="contact" className="pt-16 sm:pt-24 pb-20">
+          <Container>
+            <div className="grid gap-6 lg:grid-cols-2">
+              <Card className="relative overflow-hidden">
+                <div className="absolute -right-24 -top-24 h-56 w-56 rounded-full bg-slate-200/60 blur-3xl" />
+                <div className="absolute -left-24 -bottom-24 h-56 w-56 rounded-full bg-slate-200/60 blur-3xl" />
+
+                <div className="relative">
+                  <Pill>Let’s build your platform</Pill>
+                  <h3 className="mt-4 text-2xl font-extrabold tracking-tight">
+                    Ready to modernize claims workflows?
+                  </h3>
+                  <p className="mt-2 text-sm text-slate-600">
+                    Tell us what you’re building. We’ll respond with a practical approach, an initial scope, and an honest timeline.
+                  </p>
+
+                  <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                    <div className="rounded-2xl border border-slate-200 bg-white/70 p-4">
+                      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        <Mail className="h-4 w-4" /> Email
+                      </div>
+                      <div className="mt-1 text-sm font-semibold text-slate-900">hello@clearform.tech</div>
+                      <div className="mt-1 text-xs text-slate-600">(Replace with your real inbox)</div>
+                    </div>
+                    <div className="rounded-2xl border border-slate-200 bg-white/70 p-4">
+                      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        <Phone className="h-4 w-4" /> Phone
+                      </div>
+                      <div className="mt-1 text-sm font-semibold text-slate-900">(555) 555-5555</div>
+                      <div className="mt-1 text-xs text-slate-600">(Replace with your real number)</div>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 rounded-3xl border border-slate-200 bg-slate-900 p-5 text-slate-50">
+                    <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-300">
+                      <Shield className="h-4 w-4" /> What you can expect
+                    </div>
+                    <ul className="mt-3 space-y-2 text-sm">
+                      <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4" /> Clear scope and next steps</li>
+                      <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4" /> Tech-forward, minimal UI</li>
+                      <li className="flex gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4" /> Security-minded delivery</li>
+                    </ul>
+                  </div>
+                </div>
+              </Card>
+
+              <Card>
+                <div className="text-sm font-bold text-slate-900">Contact form</div>
+                <p className="mt-2 text-sm text-slate-600">
+                  This form is front-end only. Hook it up to your backend or a form provider when you deploy.
+                </p>
+
+                {submitted ? (
+                  <div className="mt-6 rounded-3xl border border-slate-200 bg-white/70 p-6">
+                    <div className="text-base font-extrabold tracking-tight">Thanks — we got it.</div>
+                    <p className="mt-2 text-sm text-slate-600">
+                      Replace this behavior with a real submission handler. For now, we’ve simulated a successful send.
+                    </p>
+                    <Button variant="secondary" className="mt-4" onClick={() => setSubmitted(false)}>
+                      Send another
+                    </Button>
+                  </div>
+                ) : (
+                  <form onSubmit={onSubmit} className="mt-6 space-y-4">
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div>
+                        <label className="text-xs font-semibold text-slate-600">Name</label>
+                        <input
+                          value={form.name}
+                          onChange={(e) => setForm({ ...form, name: e.target.value })}
+                          className="mt-1 w-full rounded-2xl border border-slate-200 bg-white/80 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-slate-400/60"
+                          placeholder="Your name"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs font-semibold text-slate-600">Company</label>
+                        <input
+                          value={form.company}
+                          onChange={(e) => setForm({ ...form, company: e.target.value })}
+                          className="mt-1 w-full rounded-2xl border border-slate-200 bg-white/80 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-slate-400/60"
+                          placeholder="Company"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <div>
+                        <label className="text-xs font-semibold text-slate-600">Email</label>
+                        <input
+                          type="email"
+                          value={form.email}
+                          onChange={(e) => setForm({ ...form, email: e.target.value })}
+                          className="mt-1 w-full rounded-2xl border border-slate-200 bg-white/80 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-slate-400/60"
+                          placeholder="name@company.com"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs font-semibold text-slate-600">Phone</label>
+                        <input
+                          value={form.phone}
+                          onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                          className="mt-1 w-full rounded-2xl border border-slate-200 bg-white/80 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-slate-400/60"
+                          placeholder="(optional)"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-semibold text-slate-600">What are you building?</label>
+                      <textarea
+                        value={form.message}
+                        onChange={(e) => setForm({ ...form, message: e.target.value })}
+                        className="mt-1 min-h-[120px] w-full rounded-2xl border border-slate-200 bg-white/80 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-slate-400/60"
+                        placeholder="Example: We need a claims portal + mobile inspection app with AI document intake and integrations to our CMS..."
+                        required
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                      <Button type="submit">
+                        Send message <ArrowRight className="h-4 w-4" />
+                      </Button>
+                      <div className="text-xs text-slate-500">
+                        By submitting, you agree we may reply to your inquiry.
+                      </div>
+                    </div>
+                  </form>
+                )}
+              </Card>
+            </div>
+
+            <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-slate-200 pt-8 sm:flex-row">
+              <div className="text-xs text-slate-500">
+                © {new Date().getFullYear()} ClearForm Technologies (ClearForm Tech)
+              </div>
+              <div className="text-xs text-slate-500">Built with modern tooling. Deployed anywhere.</div>
+            </div>
+          </Container>
+        </section>
+      </main>
+    </div>
+  );
+}
